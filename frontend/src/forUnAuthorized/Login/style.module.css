@@ -1,29 +1,6 @@
 .LoginPage {
-    width: 1480px;
     display: flex;
     flex-direction: column;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 57px;
-}
-
-.header div {
-    display: flex;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.navigation * {
-    padding: 0 1rem;
-}
-
-.logo:hover{
-    cursor: default;
 }
 
 .button {

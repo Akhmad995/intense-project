@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import logo from '../../public/logo.png';
-import search from '../assets/search.png';
 import s from './style.module.css';
+import Header from '../Header';
 
 const LoginPage = () => {
   const [authorized, setAuthorized] = useState(true);
@@ -41,17 +40,7 @@ const LoginPage = () => {
 
   return (
     <div className={s.LoginPage}>
-      <header className={s.header}>
-        <div className={s.navigation}>
-          <a href="" onClick={(e) => e.preventDefault()}><img src={logo} className={s.logo} alt="Nuntium" /></a>
-          <a href="">Home</a>
-          <a href="">Articles</a>
-        </div>
-        <div>
-          <img src={search} alt="" />
-          <button className={s.button}>Login</button>
-        </div>
-      </header>
+      <Header />
 
       <main className={s.main}>
         {authorized &&
