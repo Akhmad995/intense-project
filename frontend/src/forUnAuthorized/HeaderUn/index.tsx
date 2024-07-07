@@ -1,6 +1,6 @@
 import logo from '../../../public/logo.png';
 import search from '../../assets/search.png';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import s from './style.module.css'
 
@@ -9,8 +9,9 @@ const Header = () => {
         <header className={s.header}>
             <div className={s.navigation}>
                 <Link to={'/'} onClick={(e) => e.preventDefault()}><img src={logo} className={s.logo} alt="Nuntium" /></Link>
-                <Link to={'/'}>Home</Link>
-                <Link to={'/articles'}>Articles</Link>
+                <NavLink to={'/'} className={({isActive}) => isActive ? s.active : ''}>Home</NavLink>
+
+                <NavLink to={'/articles'} className={({isActive}) => isActive ? s.active : ''}>Articles</NavLink>
             </div>
             <div>
                 <img src={search} alt="" />

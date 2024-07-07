@@ -1,0 +1,36 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 57px;
+    margin: 0.5rem 0 2rem 0;
+}
+
+.header div {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.active{
+    font-weight: 700;
+}
+
+.navigation * {
+    margin: 0 1rem;
+}
+
+.logo:hover{
+    cursor: default;
+}
+
+.button {
+    font-size: 20px;
+    width: 135px;
+    height: 35px;
+    border: 2px solid #1C1C1C;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0 1rem;
+}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import s from './style.module.css';
-import Header from '../Header';
+import Header from '../HeaderUn';
 
 const LoginPage = () => {
   const [authorized, setAuthorized] = useState(true);

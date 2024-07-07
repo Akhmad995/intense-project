@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center;
     height: 57px;
+    margin: 0.5rem 0 2rem 0;
 }
 
 .header div {
@@ -12,15 +13,32 @@
     font-weight: 400;
 }
 
+.active{
+    font-weight: 700;
+}
+
 .navigation * {
-    padding: 0 1rem;
+    margin: 0 1rem;
 }
 
 .logo:hover{
     cursor: default;
 }
 
-.button {
+.profile{
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 0 1rem;
+}
+
+.profile img{
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+
+/* .button {
     font-size: 20px;
     width: 135px;
     height: 35px;
@@ -28,4 +46,4 @@
     border-radius: 10px;
     background-color: #fff;
     margin: 0 1rem;
-}
+} */

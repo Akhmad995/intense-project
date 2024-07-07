@@ -1,10 +1,11 @@
-import Header from "../Header"
+import Header from "../HeaderUn"
+import Heading from "../Heading"
 
 const Articles = () => {
     return (
         <div>
             <Header />
-            <div>Articles</div>
+            <Heading name='All articles'/>
         </div>
     )
 }
