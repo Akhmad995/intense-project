@@ -29,3 +29,4 @@
 
 # pip install Pillow - для работы с изображениями во время миграций
 
+# pip install gunicorn
