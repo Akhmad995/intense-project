@@ -1,8 +1,8 @@
 version: '3.8'
 
 volumes:
-postgres_data:
-static:
+  postgres_data: 
+  static:
 
 services:
   db:
@@ -16,7 +16,7 @@ services:
     env_file: .env
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/templates/default.conf.template
+      - ./nginx/nginx.conf/etc/nginx/templates/default.conf.template
       - static:/var/www/backend_static
     depends_on:
       - db
