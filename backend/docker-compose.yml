@@ -1,0 +1,31 @@
+version: '3.8'
+
+volumes:
+postgres_data:
+static:
+
+services:
+  db:
+    image: postgres:16.3
+    env_file: .env
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./nuntiumblog
+    env_file: .env
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/templates/default.conf.template
+      - static:/var/www/backend_static
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  nginx: 
+    image: nginx:1.27.0
+    valumes:
+      - ./nginx/nginx.conf:/etc/nginx/templates/default.conf.template
+      - static:/var/www/static
+
