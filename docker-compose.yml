@@ -18,8 +18,6 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/templates/default.conf.template
       - static:/var/www/backend_static
-    ports:
-      - 8000:8000
     depends_on:
       - db
 
@@ -28,4 +26,7 @@ services:
     valumes:
       - ./nginx/nginx.conf:/etc/nginx/templates/default.conf.template
       - static:/var/www/static
-
+    ports:
+      - 8000:80
+    depends_on:
+        - backend
