@@ -48,6 +48,5 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "email",
             "link_site",
             "link_insta",
-            "link_twit",
         )
 
