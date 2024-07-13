@@ -54,6 +54,7 @@ class UserModelAdmin(admin.ModelAdmin):
                     "link_site",
                     "link_insta",
                     "link_twit",
+                    "profile_picture",
                 )
             }
         ),
