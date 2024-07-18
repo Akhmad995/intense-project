@@ -10,3 +10,4 @@ venv
 */venv
 .gitignore
 db.sqlite3
+readmy.php
