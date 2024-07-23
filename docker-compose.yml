@@ -5,6 +5,21 @@ volumes:
   static:
 
 services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+      - '/etc/letsencrypt:/etc/letsencrypt'
+      - static:/var/www/static
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - dev
+      
   db:
     image: postgres:16.3
     env_file: .env
@@ -12,21 +27,20 @@ services:
     - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build: ./nuntiumblog
+    build: ./backend
+    networks:
+      - dev
     env_file: .env
     command: ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
     volumes:
-      - ./nginx/nginx.conf/etc/nginx/templates/default.conf.template
+      - './nginx.conf:/etc/nginx/nginx.conf'
       - static:/var/www/backend_static
     depends_on:
       - db
-
-  nginx: 
-    image: nginx:1.27.0
-    valumes:
-      - ./nginx/nginx.conf:/etc/nginx/templates/default.conf.template
-      - static:/var/www/static
-    ports:
-      - 8000:80
-    depends_on:
-        - backend
+      
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      - dev
+        

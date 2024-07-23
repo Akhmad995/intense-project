@@ -10,3 +10,4 @@ venv
 */migrations
 */venv
 */media/*
+node_modules/
