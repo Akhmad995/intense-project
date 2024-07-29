@@ -1,6 +1,6 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Home from './forAuthorized/Home'
 import Articles from './forAuthorized/Articles'
@@ -13,32 +13,30 @@ import CardDetailsUn from './forUnAuthorized/CardDetailsUn'
 import Favourites from './forAuthorized/Favourites'
 import Profile from './forAuthorized/Profile'
 
+import TokenUtils from './utils/TokenUtils'
+
 function App() {
-  const [authorized, setAuthorized] = useState(true)
+  const [authorized, setAuthorized] = useState(false)
 
-  if (authorized) return (
+  useEffect(() => {
+    if (localStorage.getItem('authorized') === 'true') {
+      setAuthorized(true)
+    } else if (localStorage.getItem('authorized') === 'false') {
+      setAuthorized(false)
+    }
+  }, [])
+
+  return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' Component={Home} />
-        <Route path='/articles' Component={Articles} />
-        <Route path='/login' Component={LoginPage} />
-        <Route path='/card' Component={CardDetails} />
-        <Route path='/favourites' Component={Favourites} />
-        <Route path='/profile' Component={Profile} />
-      </Routes>
-    </BrowserRouter>
-  )
+        {authorized ? <Route path='/' Component={Home} /> : <Route path='/' Component={HomeUn} />}
+        {authorized ? <Route path='/articles' Component={Articles} /> : <Route path='/articles' Component={ArticlesUn} />}
+        {authorized ? <Route path='/profile' Component={Profile} /> : <Route path='/login' Component={(props) => <LoginPage {...props} setAuthorized={setAuthorized} />} />}
+        {authorized ? <Route path='/card' Component={props => <CardDetails {...props} setAuthorized={setAuthorized} /> } /> : <Route path='/card' Component={CardDetailsUn} />}
+        {authorized ? <Route path='/favourites' Component={Favourites} /> : null}
 
-  if (!authorized) return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' Component={HomeUn} />
-        <Route path='/articles' Component={ArticlesUn} />
-        <Route path='/login' Component={LoginPage} />
-        <Route path='/card' Component={CardDetailsUn} />
       </Routes>
     </BrowserRouter>
   )
 }
-
 export default App

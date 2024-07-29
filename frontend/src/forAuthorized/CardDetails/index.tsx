@@ -1,8 +1,17 @@
-const CardDetails = () => {
+import { useNavigate } from "react-router-dom";
+
+const CardDetails = (props) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    props.setAuthorized(false);
+    navigate('/')
+    localStorage.setItem('authorized', 'false')
+  }
 
     return (
       <div>
-        <h1>Card Details</h1>
+        <h1 onClick={() => handleClick()}>Card Details</h1>
       </div>
     )
   }

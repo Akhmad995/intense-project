@@ -63,8 +63,12 @@
     background-size: 30px;
 }
 
-.form button{
+div .button{
+    font-size: 20px;
     width: 320px;
     height: 60px;
-    margin: 2rem 0.5rem;
+    border: 2px solid #1C1C1C;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0.5rem 0.5rem;
 }

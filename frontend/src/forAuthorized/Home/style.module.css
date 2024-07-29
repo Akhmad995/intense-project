@@ -37,7 +37,8 @@
     font-weight: 400;
 }
 
-.prevue div p p {
+.prevue div p .point {
+    display: inline-block;
     width: 3px;
     height: 3px;
     background-color: #1C1C1C80;
