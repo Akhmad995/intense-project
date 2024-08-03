@@ -5,6 +5,7 @@ from general.models import (
     Post,
     Comment,
     Reaction,
+    Category,
 )
 from rangefilter.filters import DateRangeFilter
 from django.contrib.auth.models import Group
@@ -15,6 +16,7 @@ from general.filters import (
 from django_admin_listfilter_dropdown.filters import ChoiceDropdownFilter
 
 
+# Управление пользователями в админке
 @admin.register(User)
 class UserModelAdmin(admin.ModelAdmin):
     list_display = (
@@ -105,13 +107,15 @@ class UserModelAdmin(admin.ModelAdmin):
     )
 
 
+# Управление постами в админке
 @admin.register(Post)
 class PostModelAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "title",
-        "author",
         "get_body",
+        "author",
+        "category",
         "get_comment_count",
         "created_at",
     )
@@ -122,7 +126,10 @@ class PostModelAdmin(admin.ModelAdmin):
     fields = (
         "title",
         "body",
+        "category",
         "author",
+        "read_time",
+        "post_picture",
     )
     search_fields = (
         "username",
@@ -148,8 +155,25 @@ class PostModelAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("comments")
+    
+# Управление категориями в админке
+@admin.register(Category)
+class Category(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "title",
+    )
+    list_display_links = (
+        "id",
+        "title",
+    )
+    fields = (
+        "title",
+    )
 
 
+
+# Управление комментариями в админке
 @admin.register(Comment)
 class CommentModelAdmin(admin.ModelAdmin):
     list_display = (

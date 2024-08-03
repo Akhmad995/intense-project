@@ -44,8 +44,25 @@ class UserListSerializer(serializers.ModelSerializer):
         )
 
 
+# Посты конкретного пользователя
+class NestedPostListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = (
+            "id",
+            "title",
+            "body",
+            "category",
+            "post_picture",
+            "read_time",
+            "created_at",
+        )
+
+
 # Получаем информацию о пользователе
 class UserRetrieveSerializer(serializers.ModelSerializer):
+    posts = NestedPostListSerializer(many=True)
+
     class Meta:
         model = User
         fields = (
@@ -58,23 +75,6 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "link_insta",
             "profile_picture",
             "posts",
-        )
-
-
-
-# Посты конкретного пользователя
-class NestedPostListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = (
-            "id",
-            "title",
-            "body",
-            "category",
-            "category",
-            "post_picture",
-            "read_time",
-            "created_at",
         )
 
 
