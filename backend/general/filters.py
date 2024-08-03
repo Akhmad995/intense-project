@@ -5,3 +5,7 @@ class AuthorFilter(AutocompleteFilter):
     field_name = "author"
 
 
+class PostFilter(AutocompleteFilter):
+    title = "Post"
+    field_name = "post"
+

@@ -167,9 +167,9 @@ SPECTACULAR_SETTINGS = {
 
 
 # Разрешить всем делать запрос на сайт
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Запросы могут идти только от этих доменов
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:5173',
+# ]

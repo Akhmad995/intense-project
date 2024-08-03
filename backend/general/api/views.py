@@ -1,22 +1,56 @@
-from general.models import User
 
-from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.mixins import ListModelMixin
-from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.core.exceptions import PermissionDenied
+from django_filters.rest_framework import DjangoFilterBackend
 
-from general.api.serializers import UserRegistrationSerializer
-from general.api.serializers import UserListSerializer
-from general.api.serializers import UserRetrieveSerializer
+from rest_framework.viewsets import (
+    GenericViewSet,
+    ModelViewSet,
+)
+from rest_framework.mixins import (
+    CreateModelMixin,
+    ListModelMixin,
+    RetrieveModelMixin,
+    DestroyModelMixin,
+)
+
+from general.api.serializers import (
+    UserRegistrationSerializer,
+    UserListSerializer,
+    UserRetrieveSerializer,
+    PostListSerializer,
+    PostRetrieveSerializer,
+    PostCreateUpdateSerializer,
+    CommentSerializer,
+    ReactionSerializer,
+) 
+
+from django.db.models import (
+    Q,
+    OuterRef,
+    Subquery,
+    F,
+    Case,
+    When,
+    CharField,
+    Value
+)
+
+from general.models import (
+    User,
+    Post,
+    Comment,
+    Reaction,
+)
 
 
 class UserViewSet(
     CreateModelMixin,
     ListModelMixin,
     RetrieveModelMixin,
+    DestroyModelMixin,
     GenericViewSet,
 ):
     queryset = User.objects.all().order_by("-id")
@@ -40,3 +74,55 @@ class UserViewSet(
         instance = self.request.user
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
+
+# Вьюсет для работы с постами
+class PostViewSet(ModelViewSet):
+    queryset = Post.objects.all().order_by("-id")
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return PostListSerializer
+        elif self.action == "retrieve":
+            return PostRetrieveSerializer
+        return PostCreateUpdateSerializer
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+
+        if instance.author != self.request.user:
+            raise PermissionDenied("Вы не являетесь автором этого поста.")
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        if instance.author != self.request.user:
+            raise PermissionDenied("Вы не являетесь автором этого поста.")
+        instance.delete()
+
+
+class CommentsViewSet(
+    CreateModelMixin,
+    DestroyModelMixin,
+    ListModelMixin,
+    GenericViewSet,
+):
+    queryset = Comment.objects.all().order_by("-id")
+    permission_classes = [IsAuthenticated]
+    serializer_class = CommentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["post__id"]
+
+    def perform_destroy(self, instance):
+        if instance.author != self.request.user:
+            raise PermissionDenied("Вы не являетесь автором этого комментария.")
+        instance.delete()
+
+
+# Реакции
+class ReactionViewSet(
+    CreateModelMixin,
+    GenericViewSet,
+):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ReactionSerializer
