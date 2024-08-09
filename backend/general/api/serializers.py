@@ -73,8 +73,25 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "email",
             "link_site",
             "link_insta",
+            "link_twit",
             "profile_picture",
             "posts",
+        )
+
+
+# Сериализатор для обновления пользователя
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "link_site",
+            "link_insta",
+            "link_twit",
+            "profile_picture",
         )
 
 

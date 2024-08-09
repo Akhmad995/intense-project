@@ -1,4 +1,4 @@
-
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -13,6 +13,7 @@ from rest_framework.mixins import (
     CreateModelMixin,
     ListModelMixin,
     RetrieveModelMixin,
+    UpdateModelMixin,
     DestroyModelMixin,
 )
 
@@ -20,6 +21,7 @@ from general.api.serializers import (
     UserRegistrationSerializer,
     UserListSerializer,
     UserRetrieveSerializer,
+    UserUpdateSerializer,
     PostListSerializer,
     PostRetrieveSerializer,
     PostCreateUpdateSerializer,
@@ -50,6 +52,7 @@ class UserViewSet(
     CreateModelMixin,
     ListModelMixin,
     RetrieveModelMixin,
+    UpdateModelMixin,
     DestroyModelMixin,
     GenericViewSet,
 ):
@@ -60,6 +63,8 @@ class UserViewSet(
             return UserRegistrationSerializer
         if self.action in ["retrieve", "me"]:
             return UserRetrieveSerializer
+        if self.action == "update":
+            return UserUpdateSerializer 
         return UserListSerializer
 
     def get_permissions(self): # Создать пользователя без аутентификации, получение всех только после аутентификации
@@ -69,11 +74,19 @@ class UserViewSet(
             self.permission_classes = [IsAuthenticated]
         return super().get_permissions()
 
-    @action(detail=False, methods=["get"], url_path="me")
+    @action(detail=False, methods=["get", "patch"], url_path="me")
     def me(self, request):
-        instance = self.request.user
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
+        if request.method == "PATCH":
+            serializer = self.get_serializer(instance=request.user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if request.method == "GET":
+            serializer = self.get_serializer(request.user)
+            return Response(serializer.data)
+
 
 
 # Вьюсет для работы с постами
