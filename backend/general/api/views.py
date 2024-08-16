@@ -1,4 +1,7 @@
-from rest_framework import status
+from rest_framework import (
+    status,
+    generics
+)
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -27,6 +30,7 @@ from general.api.serializers import (
     PostCreateUpdateSerializer,
     CommentSerializer,
     ReactionSerializer,
+    CategorySerializer,
 ) 
 
 from django.db.models import (
@@ -45,6 +49,7 @@ from general.models import (
     Post,
     Comment,
     Reaction,
+    Category,
 )
 
 
@@ -139,3 +144,20 @@ class ReactionViewSet(
 ):
     permission_classes = [IsAuthenticated]
     serializer_class = ReactionSerializer
+
+
+# Категории
+class CategoriesViewSet(
+    CreateModelMixin,
+    ListModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+    GenericViewSet,
+):  
+    queryset = Category.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = CategorySerializer
+
+    
+

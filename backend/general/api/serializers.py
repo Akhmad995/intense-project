@@ -5,6 +5,7 @@ from general.models import (
     Post,
     Comment,
     Reaction,
+    Category,
 )
 
 # Регистрация
@@ -120,10 +121,12 @@ class UserShortSerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "last_name")
 
 
+
 # Полуаем данные поста с сокращенным текстом
 class PostListSerializer(serializers.ModelSerializer):
     author = UserShortSerializer()
     body = serializers.SerializerMethodField()
+    category = serializers.StringRelatedField()
 
     class Meta:
         model = Post
@@ -148,6 +151,7 @@ class PostListSerializer(serializers.ModelSerializer):
 class PostRetrieveSerializer(serializers.ModelSerializer):
     author = UserShortSerializer()
     my_reaction = serializers.SerializerMethodField()
+    category = serializers.StringRelatedField()
 
     class Meta:
         model = Post
@@ -167,6 +171,19 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
         reaction = self.context["request"].user.reactions.filter(post=obj).last()
         return reaction.value if reaction else ""
     
+
+# Категории постов
+class CategorySerializer(serializers.ModelSerializer):
+    posts = PostListSerializer(many=True, read_only=True, source='post_set')
+
+    class Meta:
+        model = Category
+        fields = (
+            "id",
+            "title",
+            "posts",
+        )
+
 
 # Добавить комментарий к посту
 class CommentSerializer(serializers.ModelSerializer):
@@ -222,3 +239,4 @@ class ReactionSerializer(serializers.ModelSerializer):
         reaction.save()
 
         return reaction
+    
