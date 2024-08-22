@@ -1,5 +1,5 @@
 const TokenUtils = {
-    storeTokens: (accessToken, refreshToken) => {
+    storeTokens: (accessToken: string, refreshToken: string) => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
     },
@@ -10,14 +10,21 @@ const TokenUtils = {
         if (!refreshToken) {
             return;
         }
-
-        const response = await fetch('/api/token/refresh/', {
+    
+        let isMounted = true;
+        const response = await fetch('http://94.103.93.227/api/token/refresh/',
+            {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ refresh: refreshToken }),
         });
+        if (!isMounted) return; 
+    
         const data = await response.json();
         TokenUtils.storeTokens(data.access, data.refresh);
+        return () => {
+            isMounted = false;
+        };
     },
     verifyToken: async () => {
         const accessToken = TokenUtils.getAccessToken();
@@ -25,15 +32,18 @@ const TokenUtils = {
             return;
         }
 
-        const response = await fetch('/api/token/verify/', {
+        const response = await fetch('http://94.103.93.227/api/token/verify/', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                'Authorization': accessToken,
+             },
             body: JSON.stringify({ token: accessToken }),
+            
         });
         const data = await response.json();
         return data.valid;
     },
-    getAccessTokenExpiration: (accessToken) => {
+    getAccessTokenExpiration: (accessToken: string) => {
         const tokenParts = accessToken.split('.');
         if (tokenParts.length !== 3) {
             return;

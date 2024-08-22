@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom";
 
-const CardDetails = (props) => {
+type CardDetailsProps = {
+  setAuthorized : (authorized: boolean) => void
+}
+
+const CardDetails = (props: CardDetailsProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     props.setAuthorized(false);
-    navigate('/')
     localStorage.setItem('authorized', 'false')
+    navigate('/')
   }
 
     return (

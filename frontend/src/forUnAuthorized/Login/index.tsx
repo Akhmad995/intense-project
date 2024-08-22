@@ -6,13 +6,18 @@ import s from './style.module.css';
 import Header from '../HeaderUn';
 import TokenUtils from '../../utils/TokenUtils';
 
-const LoginPage = (props) => {
+type CardDetailsProps = {
+  setAuthorized: (authorized: boolean) => void
+}
+
+const LoginPage = (props: CardDetailsProps) => {
   const [enter, setEnter] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
   const [errorLog, setErrorLog] = useState(false)
+  const [successfullyReg, setSuccessfullyReg] = useState(false)
 
   const signInForm = useForm();
   const signUpForm = useForm();
@@ -45,16 +50,25 @@ const LoginPage = (props) => {
         },
         body: JSON.stringify({ username: userName, password }),
       });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
+      
       const data = await response.json();
+      console.log(data);
+
       TokenUtils.storeTokens(data.access, data.refresh);
+
+      // Получение ID пользователя
+      const responseUser = await fetch(`http://94.103.93.227/api/users/me/`, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${data.access}` },
+      });
+
+      const userData = await responseUser.json();
+      console.log(userData);
+
       props.setAuthorized(true);
-      navigate('/');
       localStorage.setItem('authorized', 'true')
+      navigate('/');
+      return true
     } catch (error) {
       console.error(error);
       setErrorLog(true)
@@ -72,7 +86,9 @@ const LoginPage = (props) => {
         body: JSON.stringify({ username: userName, password, email })
       })
       const data = await response.json()
-      console.log(data)
+      console.log(data);
+      setSuccessfullyReg(true)
+      return true
     } catch (error) {
       console.log(error)
     }
@@ -130,7 +146,7 @@ const LoginPage = (props) => {
                     />
                   </div>
                   {errorLog &&
-                    <div className={s.error}>
+                    <div>
                       <p>неправильно введен логин или пароль</p>
                     </div>}
                 </div>
@@ -214,6 +230,12 @@ const LoginPage = (props) => {
                     <p className="error">Пароль не совпадает</p>
                   )}
                 </div>
+
+                {successfullyReg &&
+                  <div>
+                    <p>вы успешно зарегестрированы</p>
+                  </div>
+                }
 
                 <button className={s.button}>Start</button>
               </section>
