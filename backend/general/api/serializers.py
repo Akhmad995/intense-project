@@ -16,12 +16,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             "username",
             "password",
             "email",
+            "profile_picture",
         )
 
     def create(self, validated_data):
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
+            profile_picture=validated_data['profile_picture'],
         )
         user.set_password(validated_data['password'])
         user.save()
