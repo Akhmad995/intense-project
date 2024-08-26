@@ -13,9 +13,9 @@
     margin: 0 1rem;
 }
 
-.main{
-    margin: 8rem 0;
-    
+.main {
+    margin: 4rem 0;
+
 }
 
 .form {
@@ -23,47 +23,88 @@
     flex-direction: column;
 }
 
-.form h1{
+.form h1 {
     font-size: 33px;
     font-weight: 700;
 }
 
-.form p{
+.form p {
     font-size: 16px;
     font-weight: 400;
     padding: 0 0 1rem 0;
 }
 
-.formField{
+.formField {
     position: relative;
 }
 
-.formField input{
+.formField input {
     width: 320px;
     height: 60px;
-    background-color:#F8F8F8;
+    background-color: #F8F8F8;
     border: none;
     border-radius: 10px;
     padding: 0.5rem 0.5rem 0.5rem 2rem;
     margin: 0.5rem;
 }
 
+.formFieldImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formFieldImage input {
+    display: none;
+}
+
+.avatarLabel {
+    cursor: pointer;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    display: flex;
+    flex-direction: column;
+}
+
+.avatarPlus {
+    font-size: 3rem;
+    padding-top: 1rem;
+    color: #1C1C1C80;
+}
+
+.avatarText {
+    font-size: 1.5rem;
+    color: #334253;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 .userName {
-    background: url('../assets/icons8-пользователь-64.png') no-repeat left ;
+    background: url('../assets/icons8-пользователь-64.png') no-repeat left;
     background-size: 30px;
 }
 
 .userEmail {
-    background: url('../assets/email.png') no-repeat left ;
+    background: url('../assets/email.png') no-repeat left;
     background-size: 30px;
 }
 
-.password{
-    background: url('../assets/icons8-ключ-48.png') no-repeat left ;
+.password {
+    background: url('../assets/icons8-ключ-48.png') no-repeat left;
     background-size: 30px;
 }
 
-div .button{
+div .button {
     font-size: 20px;
     width: 320px;
     height: 60px;

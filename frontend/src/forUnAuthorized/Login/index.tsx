@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
@@ -15,6 +15,7 @@ const LoginPage = (props: CardDetailsProps) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [avatar, setAvatar] = useState<string | File | null>(null);
 
   const [errorLog, setErrorLog] = useState(false)
   const [successfullyReg, setSuccessfullyReg] = useState(false)
@@ -36,6 +37,10 @@ const LoginPage = (props: CardDetailsProps) => {
       case 'email':
         setEmail(value);
         break;
+      case 'avatar':
+        const file = e.target.files![0];
+        setAvatar(file);
+        break;
       default:
         break;
     }
@@ -43,14 +48,18 @@ const LoginPage = (props: CardDetailsProps) => {
 
   const handleLogin = async () => {
     try {
+      const formData = new FormData();
+      formData.append('username', userName);
+      formData.append('password', password);
+
       const response = await fetch(`http://94.103.93.227/api/token/`, {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json',
+          Authorization: `Bearer ${TokenUtils.getAccessToken()}`
         },
-        body: JSON.stringify({ username: userName, password }),
+        body: formData
       });
-      
+
       const data = await response.json();
       console.log(data);
 
@@ -77,13 +86,17 @@ const LoginPage = (props: CardDetailsProps) => {
 
   const handleRegister = async () => {
     try {
-      console.log({ userName, password, email })
+      const formData = new FormData();
+      formData.append('username', userName);
+      formData.append('password', password);
+      formData.append('email', email);
+      if (avatar) {
+        formData.append('profile_picture', avatar);
+      }
+      console.log({ userName, password, email, avatar })
       const response = await fetch(`http://94.103.93.227/api/users/`, {
         method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify({ username: userName, password, email })
+        body: formData
       })
       const data = await response.json()
       console.log(data);
@@ -166,6 +179,31 @@ const LoginPage = (props: CardDetailsProps) => {
               <p>Sign up to get the most out of nuntium.</p>
 
               <section>
+                <div className={s.formFieldImage}>
+                  <input
+                    id="avatar-input"
+                    type="file" accept="image/*"
+                    {...signUpForm.register('avatar', { required: true })}
+                    onChange={(e) => handleInputChange(e)}
+                  />
+                  <label htmlFor="avatar-input" className={s.avatarLabel}>
+                    {avatar && (
+                      <div className={s.avatar}>
+                        <img src={URL.createObjectURL(avatar as File)} alt="Avatar" />
+                      </div>
+                    )}
+                    {!avatar && (
+                      <div className={s.avatar}>
+                        <b className={s.avatarPlus}>+</b>
+                        <b className={s.avatarText}>Avatar</b>
+                      </div>
+                    )}
+                  </label>
+                  {signUpForm.formState.errors.avatar && (
+                    <p className="error">Добавьте фото</p>
+                  )}
+                </div>
+
                 <div className={s.formField}>
                   <input
                     className={s.userName}
