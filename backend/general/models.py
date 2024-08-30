@@ -58,6 +58,17 @@ class Comment(models.Model):
         related_name='comments',
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    upvotes = models.IntegerField(default=0)  # Количество положительных голосов
+    downvotes = models.IntegerField(default=0)  # Количество отрицательных голосов
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.post}"
+    
+    @property
+    def score(self):
+        """Считаем общий рейтинг комментария."""
+        return self.upvotes - self.downvotes
+    
 
 
 # Модель реакций

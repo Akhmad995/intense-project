@@ -29,6 +29,7 @@ from general.api.serializers import (
     PostRetrieveSerializer,
     PostCreateUpdateSerializer,
     CommentSerializer,
+    VoteSerializer,
     ReactionSerializer,
     CategorySerializer,
 ) 
@@ -119,6 +120,7 @@ class PostViewSet(ModelViewSet):
         instance.delete()
 
 
+# Вьюсет для работы с комментариями
 class CommentsViewSet(
     CreateModelMixin,
     DestroyModelMixin,
@@ -131,10 +133,24 @@ class CommentsViewSet(
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["post__id"]
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
     def perform_destroy(self, instance):
         if instance.author != self.request.user:
             raise PermissionDenied("Вы не являетесь автором этого комментария.")
         instance.delete()
+
+    @action(detail=True, methods=["post"], url_path="vote")
+    def vote(self, request, pk=None):
+        comment = self.get_object()
+        serializer = VoteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.update(comment, serializer.validated_data)
+            return Response(CommentSerializer(comment, context=self.get_serializer_context()).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
 
 
 # Реакции
@@ -142,8 +158,12 @@ class ReactionViewSet(
     CreateModelMixin,
     GenericViewSet,
 ):
+    queryset = Reaction.objects.all().order_by("-id")
     permission_classes = [IsAuthenticated]
     serializer_class = ReactionSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 # Категории

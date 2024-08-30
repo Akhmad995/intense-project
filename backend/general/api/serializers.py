@@ -44,6 +44,7 @@ class UserListSerializer(serializers.ModelSerializer):
             "link_insta",
             "link_twit",
             "profile_picture",
+            "is_superuser",
         )
 
 
@@ -62,9 +63,28 @@ class NestedPostListSerializer(serializers.ModelSerializer):
         )
 
 
+# Комментарии конкретного пользователя
+class NestedCommentListSerializer(serializers.ModelSerializer):
+    score = serializers.IntegerField()
+
+    class Meta:
+        model = Comment
+        fields = (
+            "id",
+            "author",
+            "post",
+            "body",
+            "created_at",
+            "upvotes",
+            "downvotes",
+            "score",  # Общий рейтинг комментария
+        )
+
+
 # Получаем информацию о пользователе
 class UserRetrieveSerializer(serializers.ModelSerializer):
     posts = NestedPostListSerializer(many=True)
+    comments = NestedCommentListSerializer(many=True)
 
     class Meta:
         model = User
@@ -78,7 +98,9 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "link_insta",
             "link_twit",
             "profile_picture",
+            "is_superuser",
             "posts",
+            "comments",
         )
 
 
@@ -122,6 +144,23 @@ class UserShortSerializer(serializers.ModelSerializer):
         model = User
         fields = ("id", "first_name", "last_name")
 
+# Получаем комментарии поста
+class CommentShortSerializer(serializers.ModelSerializer):
+    score = serializers.IntegerField()
+
+    class Meta:
+        model = Comment
+        fields = (
+            "id",
+            "author",
+            "post",
+            "body",
+            "created_at",
+            "upvotes",
+            "downvotes",
+            "score",  # Общий рейтинг комментария
+        )
+
 
 
 # Полуаем данные поста с сокращенным текстом
@@ -154,6 +193,7 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
     author = UserShortSerializer()
     my_reaction = serializers.SerializerMethodField()
     category = serializers.StringRelatedField()
+    comments = CommentShortSerializer()
 
     class Meta:
         model = Post
@@ -167,6 +207,7 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
             "read_time",
             "my_reaction",
             "created_at",
+            "comments",
         )
 
     def get_my_reaction(self, obj) -> str:
@@ -187,11 +228,14 @@ class CategorySerializer(serializers.ModelSerializer):
         )
 
 
-# Добавить комментарий к посту
+# Сериалайзер для комментариев
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.HiddenField(
         default=serializers.CurrentUserDefault(),
     )
+    score = serializers.IntegerField(read_only=True)
+    upvotes = serializers.IntegerField(default=0, read_only=True, min_value=0)  # Значение по умолчанию
+    downvotes = serializers.IntegerField(default=0, read_only=True, min_value=0)  # Значение по умолчанию
 
     def get_fields(self):
         fields = super().get_fields()
@@ -207,7 +251,25 @@ class CommentSerializer(serializers.ModelSerializer):
             "post",
             "body",
             "created_at",
+            "upvotes",
+            "downvotes",
+            "score",  # Общий рейтинг комментария
         )
+
+
+# Голосование за комментарий
+class VoteSerializer(serializers.Serializer):
+    vote_type = serializers.ChoiceField(choices=['upvote', 'downvote'])
+
+    def update(self, instance, validated_data):
+        vote_type = validated_data.get('vote_type')
+        if vote_type == 'upvote':
+            instance.upvotes += 1
+        elif vote_type == 'downvote':
+            instance.downvotes += 1
+        instance.save()
+        return instance
+    
 
 
 # Реакции
@@ -224,21 +286,24 @@ class ReactionSerializer(serializers.ModelSerializer):
             "post",
             "value",
         )
-
+    
     def create(self, validated_data):
-        reaction = Reaction.objects.filter(
+        # Найти или создать реакцию
+        reaction, created = Reaction.objects.get_or_create(
             post=validated_data["post"],
             author=validated_data["author"],
-        ).last()
+            defaults={"value": validated_data["value"]},
+        )
 
-        if not reaction:
-            return Reaction.objects.create(**validated_data)
-
-        if reaction.value == validated_data["value"]:
-            reaction.value = None
-        else:
-            reaction.value = validated_data["value"]
-        reaction.save()
+        # Если реакция уже существует и не была создана
+        if not created:
+            if reaction.value == validated_data["value"]:
+                # Если реакция такая же, как и ранее, удаляем её
+                reaction.delete()
+            else:
+                # Обновляем значение реакции
+                reaction.value = validated_data["value"]
+                reaction.save()
 
         return reaction
     
