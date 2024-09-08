@@ -1,15 +1,13 @@
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setAuthorized } from "../../store/authSlice";
 
-type CardDetailsProps = {
-  setAuthorized : (authorized: boolean) => void
-}
-
-const CardDetails = (props: CardDetailsProps) => {
+const CardDetails = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    props.setAuthorized(false);
-    localStorage.setItem('authorized', 'false')
+    dispatch(setAuthorized())
     navigate('/')
   }
 

@@ -6,11 +6,12 @@ import s from './style.module.css';
 import Header from '../HeaderUn';
 import TokenUtils from '../../utils/TokenUtils';
 
-type CardDetailsProps = {
-  setAuthorized: (authorized: boolean) => void
-}
+import { useDispatch } from 'react-redux';
+import { setAccessToken, setAuthorized, setRefreshToken, setUserData } from '../../store/authSlice';
 
-const LoginPage = (props: CardDetailsProps) => {
+const LoginPage = () => {
+  const dispatch = useDispatch();
+
   const [enter, setEnter] = useState(true);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -60,12 +61,18 @@ const LoginPage = (props: CardDetailsProps) => {
         body: formData
       });
 
+      if (!response.ok) {
+        throw new Error('Неправильно введен логин или пароль')
+      }
+
       const data = await response.json();
       console.log(data);
 
       TokenUtils.storeTokens(data.access, data.refresh);
 
-      // Получение ID пользователя
+      dispatch(setAccessToken(TokenUtils.getAccessToken()));
+      dispatch(setRefreshToken(TokenUtils.getRefreshToken()));
+
       const responseUser = await fetch(`http://94.103.93.227/api/users/me/`, {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${data.access}` },
@@ -74,8 +81,8 @@ const LoginPage = (props: CardDetailsProps) => {
       const userData = await responseUser.json();
       console.log(userData);
 
-      props.setAuthorized(true);
-      localStorage.setItem('authorized', 'true')
+      dispatch(setUserData(userData));
+      dispatch(setAuthorized())
       navigate('/');
       return true
     } catch (error) {
@@ -211,13 +218,14 @@ const LoginPage = (props: CardDetailsProps) => {
                     placeholder="Username"
                     {...signUpForm.register('userName', {
                       required: true,
-                      pattern: /^[a-zA-Z0-9_]+$/
+                      pattern: /^[a-zA-Z0-9_]+$/,
+                      validate: (value) => value.length >= 2
                     })}
                     value={userName}
                     onChange={(e) => handleInputChange(e)}
                   />
-                  {signUpForm.formState.errors.username && (
-                    <p className="error">Имя пользователя должно быть только на латинском</p>
+                  {signUpForm.formState.errors.userName && (
+                    <p className="error">Имя пользователя должно быть только на латинском <br /> a длина состоять не меньше чем из 2 букв</p>
                   )}
                 </div>
 
@@ -269,7 +277,7 @@ const LoginPage = (props: CardDetailsProps) => {
                   )}
                 </div>
 
-                {successfullyReg &&
+                {successfullyReg && !signUpForm.formState.errors.userName &&
                   <div>
                     <p>вы успешно зарегестрированы</p>
                   </div>
