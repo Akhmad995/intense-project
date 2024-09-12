@@ -3,23 +3,77 @@ import search from '../../assets/search.png';
 import { Link, NavLink } from 'react-router-dom';
 import profile from '../../assets/profile.jpg'
 
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setAuthorized } from "../../store/authSlice";
+import { RootState } from '../../store';
+
+import { useState } from 'react';
+
 import s from './style.module.css'
 
 const Header = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const userData = useSelector((state: RootState) => state.auth.userData);
+
+    const [isProfileHovered, setProfileHovered] = useState(false);
+    const [isWindowHovered, setWindowHovered] = useState(false);
+
+    const handleClick = () => {
+        dispatch(setAuthorized())
+        navigate('/')
+    }
+
+    const handleProfileMouseOver = () => {
+        setProfileHovered(true);
+    }
+
+    const handleProfileMouseOut = () => {
+        setTimeout(() => {
+            setProfileHovered(false);
+        }, 2000);
+    }
+
+    const handleWindowMouseOver = () => {
+        setWindowHovered(true);
+    }
+
+    const handleWindowMouseOut = () => {
+        setWindowHovered(false);
+    }
+
     return (
         <header className={s.header}>
             <div className={s.navigation}>
                 <Link to={'/'} className={s.logo} onClick={(e) => e.preventDefault()}><img src={logo} alt="Nuntium" /></Link>
-                <NavLink to={'/'} className={({isActive}) => isActive ? s.active : ''}>Home</NavLink>
+                <NavLink to={'/'} className={({ isActive }) => isActive ? s.active : ''}>Home</NavLink>
 
-                <NavLink to={'/articles'} className={({isActive}) => isActive ? s.active : ''}>Articles</NavLink>
-                <NavLink to={'/favourites'} className={({isActive}) => isActive ? s.active : ''}>Favourites</NavLink>
+                <NavLink to={'/articles'} className={({ isActive }) => isActive ? s.active : ''}>Articles</NavLink>
+                <NavLink to={'/favourites'} className={({ isActive }) => isActive ? s.active : ''}>Favourites</NavLink>
             </div>
-            <div>
+            <div className={s.infoProfile}>
                 <img src={search} alt="" />
-                <Link to={'/profile'} className={s.profile}>
-                    <img src={profile} alt="" />
+                <Link to={'/profile'} className={s.profile} onMouseOver={handleProfileMouseOver} onMouseOut={handleProfileMouseOut}>
+                    <img src={userData?.profile_picture} alt="" />
                 </Link>
+                <div className={s.window} onMouseOver={handleWindowMouseOver} onMouseOut={handleWindowMouseOut} style={{ display: (isProfileHovered || isWindowHovered) ? 'flex' : 'none' }}>
+                    <div className={s.shortInfo}>
+                        {userData && (
+                            <>
+                                <p>{userData?.username}</p>
+                                <p>{userData?.email}</p>
+                            </>
+                        )}
+                    </div>
+                    <hr />
+                    <div className={s.quickActions}>
+                        <p>Write an Article</p>
+                        <p>Liked</p>
+                        <p onClick={() => handleClick()}>Sign out</p>
+                    </div>
+                </div>
             </div>
         </header>
     )

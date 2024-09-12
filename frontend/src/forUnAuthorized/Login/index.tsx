@@ -7,10 +7,11 @@ import Header from '../HeaderUn';
 import TokenUtils from '../../utils/TokenUtils';
 
 import { useDispatch } from 'react-redux';
-import { setAccessToken, setAuthorized, setRefreshToken, setUserData } from '../../store/authSlice';
+import { Dispatch } from '@reduxjs/toolkit';
+import { setAccessToken, setAuthorized, setRefreshToken, fetchUserData } from '../../store/authSlice';
 
 const LoginPage = () => {
-  const dispatch = useDispatch();
+  const dispatch: Dispatch<any> = useDispatch();
 
   const [enter, setEnter] = useState(true);
   const [userName, setUserName] = useState('');
@@ -73,15 +74,8 @@ const LoginPage = () => {
       dispatch(setAccessToken(TokenUtils.getAccessToken()));
       dispatch(setRefreshToken(TokenUtils.getRefreshToken()));
 
-      const responseUser = await fetch(`http://94.103.93.227/api/users/me/`, {
-        method: 'GET',
-        headers: { 'Authorization': `Bearer ${data.access}` },
-      });
+      dispatch(fetchUserData(data.access));
 
-      const userData = await responseUser.json();
-      console.log(userData);
-
-      dispatch(setUserData(userData));
       dispatch(setAuthorized())
       navigate('/');
       return true

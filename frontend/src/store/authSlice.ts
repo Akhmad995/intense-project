@@ -1,12 +1,39 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const authSlice = createSlice({
+export const fetchUserData = createAsyncThunk(
+    'auth/UserData',
+    async (accessToken: string, thunkAPI) => {
+        const userResponse = await fetch(`http://94.103.93.227/api/users/me/`, {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${accessToken}` },
+        });
+
+        const userData = await userResponse.json();
+        console.log(userData);
+        thunkAPI.dispatch(setUserData(userData));
+    }
+
+)
+
+export interface UserDataType{
+    id: number,
+    username: string,
+    email: string,
+    profile_picture: string,
+    is_superuser: boolean,
+    first_name: string,
+    last_name: string,
+    posts: [],
+    comments: []
+}
+
+export const authSlice = createSlice({
     name: "auth",
     initialState: {
         authorized: localStorage.getItem('authorized') === 'true' ? true : false,
         accessToken: null,
         refreshToken: null,
-        userData: null
+        userData: localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData') || '{}') as UserDataType : null,
     },
     reducers: {
         setAuthorized(state) {
@@ -21,6 +48,7 @@ const authSlice = createSlice({
         },
         setUserData(state, action) {
             state.userData = action.payload;
+            localStorage.setItem('userData', JSON.stringify(action.payload));
         }
     },
 })
