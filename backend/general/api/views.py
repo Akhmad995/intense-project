@@ -94,11 +94,9 @@ class UserViewSet(
             return Response(serializer.data)
 
 
-
 # Вьюсет для работы с постами
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all().order_by("-id")
-    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -107,9 +105,17 @@ class PostViewSet(ModelViewSet):
             return PostRetrieveSerializer
         return PostCreateUpdateSerializer
 
+    def get_permissions(self):
+        # Разрешить просмотр всех постов без аутентификации
+        if self.action in ["list", "retrieve"]:
+            self.permission_classes = [AllowAny]
+        # Для остальных действий требуется аутентификация
+        else:
+            self.permission_classes = [IsAuthenticated]
+        return super().get_permissions()
+
     def perform_update(self, serializer):
         instance = self.get_object()
-
         if instance.author != self.request.user:
             raise PermissionDenied("Вы не являетесь автором этого поста.")
         serializer.save()
