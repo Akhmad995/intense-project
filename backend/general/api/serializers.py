@@ -263,10 +263,12 @@ class VoteSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         vote_type = validated_data.get('vote_type')
+
         if vote_type == 'upvote':
             instance.upvotes += 1
         elif vote_type == 'downvote':
             instance.downvotes += 1
+            
         instance.save()
         return instance
     

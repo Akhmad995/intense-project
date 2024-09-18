@@ -145,9 +145,11 @@ class CommentsViewSet(
     def vote(self, request, pk=None):
         comment = self.get_object()
         serializer = VoteSerializer(data=request.data)
+        
         if serializer.is_valid():
             serializer.update(comment, serializer.validated_data)
             return Response(CommentSerializer(comment, context=self.get_serializer_context()).data)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
