@@ -7,10 +7,10 @@ from django.utils.html import mark_safe
 # Модель пользователя
 class User(AbstractUser):
     profile_picture = models.ImageField(verbose_name='Фото', upload_to='photos/%Y/%m/%d/', blank=True, null=True ) # разбивка фотографий по папкам г/м/д
+    descr = models.TextField(verbose_name='Описание пользователя', max_length=255, null=True, blank=True)
     link_site = models.URLField(verbose_name='Сайт', max_length=200, blank=True, null=True)
     link_insta = models.URLField(verbose_name='Instagram', max_length=200, blank=True, null=True)
     link_twit = models.URLField(verbose_name='Twitter', max_length=200, blank=True, null=True)
-
 
 
 # Модель для постов

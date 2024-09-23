@@ -56,6 +56,7 @@ class UserModelAdmin(admin.ModelAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
+                    "descr",
                     "email",
                     "link_site",
                     "link_insta",
