@@ -1,0 +1,123 @@
+.changeProfile {
+    width: 700px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-areas:
+        'picture picture'
+        'nickname email'
+        'firstname lastname'
+        'description description'
+        'button button'
+    ;
+}
+
+.nickname,
+.email,
+.firstname,
+.lastname {
+    max-width: 400px;
+    height: 40px;
+    background-color: #F8F8F8;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 0.5rem;
+}
+
+.image {
+    grid-area: picture;
+}
+
+.image input {
+    width: 320px;
+    height: 60px;
+    background-color: #F8F8F8;
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    margin: 0.5rem;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.image input {
+    display: none;
+}
+
+.avatarLabel {
+    cursor: pointer;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatarPlus {
+    font-size: 3rem;
+    padding-top: 1rem;
+    color: #1C1C1C80;
+}
+
+.avatarText {
+    font-size: 1.5rem;
+    color: #334253;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.nickname {
+    grid-area: nickname;
+}
+
+.email {
+    grid-area: email;
+}
+
+.firstname {
+    grid-area: firstname;
+}
+
+.lastname {
+    grid-area: lastname;
+}
+
+.description {
+    grid-area: description;
+    min-width: 320px;
+    height: 150px;
+    background-color: #F8F8F8;
+    border: none;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 0.5rem;
+    font-family: sans-serif;
+}
+
+.button {
+    grid-area: button;
+    font-size: 20px;
+    width: 200px;
+    height: 40px;
+    border: 2px solid #1C1C1C;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 0.5rem 0.5rem;
+    cursor: pointer;
+}

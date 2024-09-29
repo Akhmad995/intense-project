@@ -1,5 +1,5 @@
 import Header from "../HeaderUn"
-import Heading from "../Heading"
+import Heading from "../../generalComponents/Heading"
 
 const Articles = () => {
     return (

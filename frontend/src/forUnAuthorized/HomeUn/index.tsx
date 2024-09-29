@@ -1,10 +1,25 @@
+import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import Header from "../HeaderUn"
-import Heading from "../Heading"
+import Heading from "../../generalComponents/Heading"
 import picture from '../../assets/picture.jpg'
 import s from './style.module.css'
+import TopPost from "../../generalComponents/TopPost"
+import StandardPost from "../../generalComponents/StandardPost"
+import { useDispatch } from "react-redux"
+import { Dispatch } from "@reduxjs/toolkit"
+import { fetchPostsData } from "../../store/postsSlice"
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
 
 const Home = () => {
+    const dispatch: Dispatch<any> = useDispatch();
+    useEffect(() => {
+        dispatch(fetchPostsData());
+    }, [dispatch]);
+
+    const postsData = useSelector((state: RootState) => state.posts.postsData)
+
     return (
         <div>
             <Header />
@@ -23,7 +38,14 @@ const Home = () => {
             </div>
 
             <Heading name='Top 3' />
+            {postsData.results.map((data: any) => (
+                <TopPost key={data.id} data={data} />
+            ))}
+
             <Heading name='Newset' />
+            {postsData.results.map((data: any) => (
+                <StandardPost key={data.id} data={data} />
+            ))}
 
             <Link to={'/articles'} className={s.button}>
                 See all

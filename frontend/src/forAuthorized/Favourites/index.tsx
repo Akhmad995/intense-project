@@ -1,5 +1,5 @@
 import Header from "../Header"
-import Heading from "../Heading"
+import Heading from "../../generalComponents/Heading"
 
 const Favourites = () => {
     return (

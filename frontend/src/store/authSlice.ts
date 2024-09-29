@@ -20,6 +20,7 @@ export interface UserDataType{
     username: string,
     email: string,
     profile_picture: string,
+    descr: string,
     is_superuser: boolean,
     first_name: string,
     last_name: string,

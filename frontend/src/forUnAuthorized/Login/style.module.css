@@ -3,16 +3,6 @@
     flex-direction: column;
 }
 
-.button {
-    font-size: 20px;
-    width: 135px;
-    height: 35px;
-    border: 2px solid #1C1C1C;
-    border-radius: 10px;
-    background-color: #fff;
-    margin: 0 1rem;
-}
-
 .main {
     margin: 4rem 0;
 }
@@ -111,4 +101,5 @@ div .button {
     border-radius: 10px;
     background-color: #fff;
     margin: 0.5rem 0.5rem;
+    cursor: pointer;
 }

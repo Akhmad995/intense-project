@@ -209,7 +209,7 @@ const LoginPage = () => {
                   <input
                     className={s.userName}
                     type="text"
-                    placeholder="Username"
+                    placeholder="UserName"
                     {...signUpForm.register('userName', {
                       required: true,
                       pattern: /^[a-zA-Z0-9_]+$/,

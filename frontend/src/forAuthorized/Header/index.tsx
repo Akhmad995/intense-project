@@ -1,7 +1,6 @@
 import logo from '../../../public/logo.png';
 import search from '../../assets/search.png';
 import { Link, NavLink } from 'react-router-dom';
-import profile from '../../assets/profile.jpg'
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +32,7 @@ const Header = () => {
     const handleProfileMouseOut = () => {
         setTimeout(() => {
             setProfileHovered(false);
-        }, 2000);
+        }, 1000);
     }
 
     const handleWindowMouseOver = () => {
@@ -70,7 +69,7 @@ const Header = () => {
                     <hr />
                     <div className={s.quickActions}>
                         <p>Write an Article</p>
-                        <p>Liked</p>
+                        <p onClick={() => navigate('/changeProfile')}>Change Profile</p>
                         <p onClick={() => handleClick()}>Sign out</p>
                     </div>
                 </div>
