@@ -73,7 +73,7 @@ const ChangeProfile = () => {
         if (description !== originalUserData?.descr) {
             formData.append('descr', description ?? '');
         }
-        if (avatar) {
+        if (avatar instanceof File) {
             formData.append('profile_picture', avatar);
         }
 
