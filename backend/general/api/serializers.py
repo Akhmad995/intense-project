@@ -196,7 +196,7 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
     author = UserShortSerializer()
     my_reaction = serializers.SerializerMethodField()
     category = serializers.StringRelatedField()
-    comments = CommentShortSerializer()
+    comments = CommentShortSerializer(many=True)
 
     class Meta:
         model = Post
@@ -214,8 +214,11 @@ class PostRetrieveSerializer(serializers.ModelSerializer):
         )
 
     def get_my_reaction(self, obj) -> str:
-        reaction = self.context["request"].user.reactions.filter(post=obj).last()
-        return reaction.value if reaction else ""
+        user = self.context["request"].user
+        if user.is_authenticated:  # Проверяем, авторизован ли пользователь
+            reaction = user.reactions.filter(post=obj).last()
+            return reaction.value if reaction else ""
+        return None  # Возвращаем None или любое дефолтное значение для неавторизованных пользователей
     
 
 # Категории постов
