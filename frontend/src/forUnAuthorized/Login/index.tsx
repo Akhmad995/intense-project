@@ -1,14 +1,14 @@
+import s from './style.module.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
-import s from './style.module.css';
-import Header from '../HeaderUn';
-import TokenUtils from '../../utils/TokenUtils';
-
 import { useDispatch } from 'react-redux';
 import { Dispatch } from '@reduxjs/toolkit';
+
 import { setAccessToken, setAuthorized, setRefreshToken, fetchUserData } from '../../store/authSlice';
+
+import Header from '../HeaderUn';
+import TokenUtils from '../../utils/TokenUtils';
 
 const LoginPage = () => {
   const dispatch: Dispatch<any> = useDispatch();

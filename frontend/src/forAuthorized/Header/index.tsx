@@ -1,15 +1,15 @@
-import logo from '../../../public/logo.png';
-import search from '../../assets/search.png';
+import s from './style.module.css'
 import { Link, NavLink } from 'react-router-dom';
-
+import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import logo from '../../../public/logo.png';
+import search from '../../assets/search.png';
+
 import { setAuthorized } from "../../store/authSlice";
 import { RootState } from '../../store';
 
-import { useState } from 'react';
-
-import s from './style.module.css'
 
 const Header = () => {
     const navigate = useNavigate();

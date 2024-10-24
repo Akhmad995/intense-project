@@ -1,8 +1,9 @@
+import s from './style.module.css'
+
 import logo from '../../../public/logo.png';
 import search from '../../assets/search.png';
-import { Link, NavLink } from 'react-router-dom';
 
-import s from './style.module.css'
+import { Link, NavLink } from 'react-router-dom';
 
 const Header = () => {
     return (

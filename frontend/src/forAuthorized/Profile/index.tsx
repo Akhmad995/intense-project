@@ -1,8 +1,10 @@
-import Header from "../Header"
 import s from './style.module.css'
-import Heading from "../../generalComponents/Heading"
+
 import { useSelector } from "react-redux"
 import { RootState } from "../../store"
+
+import Heading from "../../generalComponents/Heading"
+import Header from "../Header"
 
 const Profile = () => {
 
