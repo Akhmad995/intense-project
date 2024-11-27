@@ -14,6 +14,7 @@ import LoginPage from './forUnAuthorized/Login'
 import HomeUn from './forUnAuthorized/HomeUn'
 import ArticlesUn from './forUnAuthorized/ArticlesUn'
 import PostDetailsUn from './forUnAuthorized/PostDetailsUn'
+import CreatePost from './forAuthorized/CreatePost'
 
 const App = () => {
   const authorized = useSelector((state: RootState) => state.auth.authorized)
@@ -27,6 +28,7 @@ const App = () => {
         {authorized ? <Route path='/posts/:id' Component={PostDetails} /> : <Route path='/posts/:id' Component={PostDetailsUn} />}
         {authorized && <Route path='/favourites' Component={Favourites} />}
         {authorized && <Route path='/changeProfile' Component={ChangeProfile}/>}
+        {authorized && <Route path='/createPost' Component={CreatePost}/>}
 
       </Routes>
     </BrowserRouter>

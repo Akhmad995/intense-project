@@ -1,0 +1,136 @@
+.createPost {
+    width: 870px;
+    margin: 0 auto 10rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    height: 50px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #F8F8F8;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0.5rem 0;
+    padding: 0 2rem;
+}
+
+.description {
+    height: 200px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #F8F8F8;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0.5rem 0;
+    padding: 1rem 2rem;
+}
+
+.createPost h2 {
+    font-family: Libre Baskerville;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 29.76px;
+    text-align: center;
+    margin: 2rem 0 1rem 0;
+}
+
+.readTime {
+    width: 160px;
+    height: 40px;
+    font-size: 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: #F8F8F8;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 0 2rem;
+}
+
+.tag {
+    height: 40px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.hiddenRadio {
+    display: none;
+}
+
+.selected {
+    background-color: #b1b1b1;
+    color: #424242;
+}
+
+.image {
+    grid-area: picture;
+}
+
+.image input {
+    width: 320px;
+    height: 60px;
+    background-color: #F8F8F8;
+    padding: 0.5rem 0.5rem 0.5rem 2rem;
+    margin: 0.5rem;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.image input {
+    display: none;
+}
+
+.avatarLabel {
+    cursor: pointer;
+}
+
+.avatar {
+    width: 450px;
+    height: 350px;
+    background-color: #D9D9D9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatarPlus {
+    font-size: 8rem;
+    color: #1C1C1C80;
+}
+
+.avatarText {
+    font-size: 1.5rem;
+    color: #334253;
+}
+
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.button {
+    font-size: 20px;
+    height: 60px;
+    border: 2px solid #1C1C1C;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 3rem 0;
+    cursor: pointer;
+}

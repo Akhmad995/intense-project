@@ -68,7 +68,7 @@ const Header = () => {
                     </div>
                     <hr />
                     <div className={s.quickActions}>
-                        <p>Write an Article</p>
+                        <p onClick={() => navigate('/createPost')}>Write an Article</p>
                         <p onClick={() => navigate('/changeProfile')}>Change Profile</p>
                         <p onClick={() => handleClick()}>Sign out</p>
                     </div>
