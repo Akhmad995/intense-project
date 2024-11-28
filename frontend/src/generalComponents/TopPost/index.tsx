@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import s from './style.module.css'
 
 interface Post {
@@ -15,7 +16,7 @@ interface Post {
     read_time: string
 }
 
-const TopPost = ({data}: {data: Post}) => {
+const TopPost = ({ data }: { data: Post }) => {
     const createdAtDate = new Date(data.created_at);
     const month = createdAtDate.getMonth();
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -28,12 +29,14 @@ const TopPost = ({data}: {data: Post}) => {
     return (
         <div className={s.post}>
             <img src={data.post_picture} alt="" />
-            <div className={s.description}>
-                <h3>{data.category}</h3>
-                <h2>{data.title}</h2>
-                <p className={s.intelligence}>{data.author.first_name} {data.author.last_name} <span className={s.point}></span>{monthString} {day}, {year} ({data.read_time} mins read)</p>
-                <p>{data.body}</p>
-            </div>
+            <Link to={`/posts/${data?.id}`}>
+                <div className={s.description}>
+                    <h3>{data.category}</h3>
+                    <h2>{data.title}</h2>
+                    <p className={s.intelligence}>{data.author.first_name} {data.author.last_name} <span className={s.point}></span>{monthString} {day}, {year} ({data.read_time} mins read)</p>
+                    <p>{data.body}</p>
+                </div>
+            </Link>
         </div>
     )
 }

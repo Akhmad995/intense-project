@@ -56,7 +56,7 @@ const CreatePost = () => {
 
   const handleTagClick = (tagIndex: number) => {
     setSelectedTag(tags[tagIndex]);
-    setTag(tagIndex);
+    setTag(tagIndex + 1);
     publicPost.setValue('tag', tags[tagIndex]);
   };
 

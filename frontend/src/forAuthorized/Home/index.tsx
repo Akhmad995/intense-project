@@ -24,6 +24,8 @@ const Home = () => {
 
     const firstPost = postsData.results[0]
 
+    const topPosts = [...postsData.results].sort(() => Math.random() - 0.5).slice(0, 3);
+
     return (
         <div>
             <Header />
@@ -31,7 +33,7 @@ const Home = () => {
             <FirstPost data={firstPost}/>
 
             <Heading name='Top 3' />
-            {postsData.results.map((data: any) => (
+            {topPosts.map((data: any) => (
                 <TopPost key={data.id} data={data} />
             ))}
 
