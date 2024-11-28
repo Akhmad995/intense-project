@@ -25,8 +25,10 @@ const PostDetails = () => {
   const authorId = postData.author.id
 
   useEffect(() => {
-    dispatch(fetchAuthorData(authorId))
-  }, [id, dispatch])
+    if (postData.author) {
+      dispatch(fetchAuthorData(authorId));
+    }
+  }, [postData, dispatch]);
 
   const authorData = useSelector((state: RootState) => state.posts.authorData)
 
