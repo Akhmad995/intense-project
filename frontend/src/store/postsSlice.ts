@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserDataType } from "./authSlice";
 import TokenUtils from "../utils/TokenUtils";
 
@@ -20,6 +20,7 @@ export interface postsData {
             category: string,
             created_at: string,
             read_time: string
+            my_reaction: boolean
         }
     ]
 }
@@ -55,20 +56,39 @@ export const fetchPostData = createAsyncThunk(
 )
 
 export const fetchAuthorData = createAsyncThunk(
-    "posts/fethcAuthorData",
+    "posts/fetchAuthorData",
     async (id: number, thunkAPI) => {
         const response = await fetch(`http://94.103.93.227/api/users/${id}/`, {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${TokenUtils.getAccessToken()}`
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${TokenUtils.getAccessToken()}`
             }
-          })
-          const data = await response.json()
-          console.log(data)
-          thunkAPI.dispatch(setAuthorData(data))
+        })
+        const data = await response.json()
+        console.log(data)
+        thunkAPI.dispatch(setAuthorData(data))
     }
 )
+
+export const fetchPostReaction = createAsyncThunk(
+    "posts/fetchPostReaction",
+    async ({ id, likeState }: { id: number; likeState: string | null }, { dispatch }) => {
+        const response = await fetch('http://94.103.93.227/api/reactions/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${TokenUtils.getAccessToken()}`
+            },
+            body: JSON.stringify({ post: id, value: likeState })
+        });
+        const data = await response.json();
+        console.log(data);
+
+        dispatch(setPostReaction({ id, likeState }));
+        return data;
+    }
+);
 
 export const postsSlice = createSlice({
     name: "posts",
@@ -91,7 +111,10 @@ export const postsSlice = createSlice({
             body: null,
             category: null,
             created_at: null,
-            read_time: null
+            read_time: null,
+            my_reaction: localStorage.getItem('reactionState')
+                ? JSON.parse(localStorage.getItem('reactionState') || '{}')
+                : null
         },
         authorData: {
             id: 0,
@@ -104,7 +127,8 @@ export const postsSlice = createSlice({
             last_name: '',
             posts: [],
             comments: []
-        } as UserDataType
+        } as UserDataType,
+        likedPosts: [] as number[]
     },
     reducers: {
         setPostsData(state, action) {
@@ -115,9 +139,21 @@ export const postsSlice = createSlice({
         },
         setAuthorData(state, action) {
             state.authorData = action.payload
+        },
+        setPostReaction(state, action: PayloadAction<{ id: number; likeState: string | null }>) {
+            const { id } = action.payload;
+            state.postData.my_reaction = !state.postData.my_reaction;
+
+            if (state.postData.my_reaction) {
+                state.likedPosts.push(id);
+            } else {
+                state.likedPosts = state.likedPosts.filter(postId => postId !== id);
+            }
+
+            localStorage.setItem('reactionState', JSON.stringify(action.payload));
         }
     }
 })
 
-export const { setPostsData, setPostData, setAuthorData } = postsSlice.actions
+export const { setPostsData, setPostData, setAuthorData, setPostReaction } = postsSlice.actions
 export default postsSlice.reducer

@@ -1,11 +1,14 @@
 import s from './style.module.css'
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 
-import { fetchAuthorData, fetchPostData } from "../../store/postsSlice"
+import { fetchAuthorData, fetchPostData, fetchPostReaction } from "../../store/postsSlice"
 import { AppDispatch, RootState } from "../../store";
+
+import like from '../../../public/like.png'
+import dontLike from '../../../public/dontLike.png'
 
 import Header from "../Header";
 
@@ -45,6 +48,18 @@ const PostDetails = () => {
     year = createdAtDate.getFullYear();
   }
 
+  const [liked, setLiked] = useState<null | string>(postData.my_reaction);
+
+  const IdLikedPosts = useSelector((state: RootState) => state.posts.likedPosts);
+
+  const handleLike = () => {
+    const newLikeState = liked ? null : "heart";
+    setLiked(newLikeState)
+
+    dispatch(fetchPostReaction({ id: postData.id, likeState: newLikeState }))
+  };
+
+  const isLiked = IdLikedPosts.includes(postData.id);
 
   return (
     <div>
@@ -60,6 +75,16 @@ const PostDetails = () => {
         <h1 className={s.title}>{postData.title}</h1>
         <p className={s.intelligence}>{postData?.author?.first_name} {postData?.author?.last_name} <span className={s.point}></span>{monthString} {day}, {year} ({postData?.read_time} mins read)</p>
         <p className={s.description}>{postData.body}</p>
+      </div>
+
+      <div className={s.actions}>
+        <div onClick={() => handleLike()}>
+          {isLiked ?
+            <img src={like} alt="" />
+            :
+            <img src={dontLike} alt="" />
+          }
+        </div>
       </div>
 
       <div className={s.author}>

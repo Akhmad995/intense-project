@@ -5,7 +5,7 @@
 }
 
 .info {
-    margin: 3rem auto 4rem auto;
+    margin: 3rem auto 1rem auto;
     width: 790px;
 }
 
@@ -43,6 +43,17 @@
     width: 650px;
     margin: 0 auto;
     text-align: left;
+}
+
+.actions {
+    width: 650px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.actions * {
+    width: 24px;
+    cursor: pointer;
 }
 
 .author {
