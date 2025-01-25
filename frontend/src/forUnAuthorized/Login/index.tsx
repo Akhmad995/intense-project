@@ -54,7 +54,7 @@ const LoginPage = () => {
       formData.append('username', userName);
       formData.append('password', password);
 
-      const response = await fetch(`http://94.103.93.227/api/token/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/token/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${TokenUtils.getAccessToken()}`
@@ -95,7 +95,7 @@ const LoginPage = () => {
         formData.append('profile_picture', avatar);
       }
       console.log({ userName, password, email, avatar })
-      const response = await fetch(`http://94.103.93.227/api/users/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/users/`, {
         method: 'POST',
         body: formData
       })

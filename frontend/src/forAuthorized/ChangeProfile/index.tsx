@@ -77,7 +77,7 @@ const ChangeProfile = () => {
             formData.append('profile_picture', avatar);
         }
 
-        const response = await fetch(`http://94.103.93.227/api/users/${userData?.id}/`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/users/${userData?.id}/`, {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${TokenUtils.getAccessToken()}`,

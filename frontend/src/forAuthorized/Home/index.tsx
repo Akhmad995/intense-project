@@ -22,7 +22,7 @@ const Home = () => {
 
     const postsData = useSelector((state: RootState) => state.posts.postsData)
 
-    const firstPost = postsData.results[0]
+    const firstPost = postsData.results[postsData.results.length - 1]
 
     const topPosts = [...postsData.results].sort(() => Math.random() - 0.5).slice(0, 3);
 

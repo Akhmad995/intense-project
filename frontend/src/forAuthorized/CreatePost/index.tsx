@@ -74,7 +74,7 @@ const CreatePost = () => {
       console.log({ title, description, tag, image, readTime });
       console.log(`Bearer ${TokenUtils.getAccessToken()}`)
 
-      const response = await fetch(`http://94.103.93.227/api/posts/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/posts/`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${TokenUtils.getAccessToken()}`

@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchUserData = createAsyncThunk(
     'auth/UserData',
     async (accessToken: string, thunkAPI) => {
-        const userResponse = await fetch(`http://94.103.93.227/api/users/me/`, {
+        const userResponse = await fetch(`http://127.0.0.1:8000/api/users/me/`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${accessToken}` },
         });
@@ -31,7 +31,7 @@ export interface UserDataType{
 export const authSlice = createSlice({
     name: "auth",
     initialState: {
-        authorized: localStorage.getItem('authorized') === 'true' ? true : false,
+        authorized: localStorage.getItem('accessToken') !== null ? true : false,
         accessToken: null,
         refreshToken: null,
         userData: localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData') || '{}') as UserDataType : null,

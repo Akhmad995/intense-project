@@ -28,8 +28,6 @@ const PostDetails = () => {
     dispatch(fetchAuthorData(authorId))
   }, [id, dispatch])
 
-  // const authorData = useSelector((state: RootState) => state.posts.authorData)
-
   const createdAtDate = postData.created_at ? new Date(postData.created_at) : null;
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   let monthString = undefined;

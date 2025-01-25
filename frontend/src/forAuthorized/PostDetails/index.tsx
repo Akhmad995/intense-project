@@ -18,20 +18,23 @@ const PostDetails = () => {
 
   useEffect(() => {
     if (id) {
-      const postId = parseInt(id)
+      let postId = parseInt(id)
       dispatch(fetchPostData(postId));
     }
   }, [id, dispatch]);
 
   const postData = useSelector((state: RootState) => state.posts.postData)
 
-  const authorId = postData.author.id
+  let authorId = postData.author.id
 
   useEffect(() => {
-    if (postData.author) {
+    if (authorId) {
       dispatch(fetchAuthorData(authorId));
+      return () => {
+        authorId = 0;
+      }
     }
-  }, [postData, dispatch]);
+  }, [authorId, dispatch]);
 
   const authorData = useSelector((state: RootState) => state.posts.authorData)
 

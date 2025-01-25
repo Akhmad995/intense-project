@@ -12,7 +12,7 @@ const TokenUtils = {
         }
     
         let isMounted = true;
-        const response = await fetch('http://94.103.93.227/api/token/refresh/',
+        const response = await fetch('http://127.0.0.1:8000/api/token/refresh/',
             {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ const TokenUtils = {
             return;
         }
 
-        const response = await fetch('http://94.103.93.227/api/token/verify/', {
+        const response = await fetch('http://127.0.0.1:8000/api/token/verify/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
                 'Authorization': accessToken,

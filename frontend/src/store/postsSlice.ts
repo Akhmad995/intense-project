@@ -28,7 +28,7 @@ export interface postsData {
 export const fetchPostsData = createAsyncThunk(
     "posts/fetchPostsData",
     async (_, thunkAPI) => {
-        const response = await fetch('http://94.103.93.227/api/posts/', {
+        const response = await fetch('http://127.0.0.1:8000/api/posts/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const fetchPostsData = createAsyncThunk(
 export const fetchPostData = createAsyncThunk(
     "posts/fetchPostData",
     async (id: number, thunkAPI) => {
-        const response = await fetch(`http://94.103.93.227/api/posts/${id}/`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/posts/${id}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const fetchPostData = createAsyncThunk(
 export const fetchAuthorData = createAsyncThunk(
     "posts/fetchAuthorData",
     async (id: number, thunkAPI) => {
-        const response = await fetch(`http://94.103.93.227/api/users/${id}/`, {
+        const response = await fetch(`http://127.0.0.1:8000/api/users/${id}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export const fetchAuthorData = createAsyncThunk(
 export const fetchPostReaction = createAsyncThunk(
     "posts/fetchPostReaction",
     async ({ id, likeState }: { id: number; likeState: string | null }, { dispatch }) => {
-        const response = await fetch('http://94.103.93.227/api/reactions/', {
+        const response = await fetch('http://127.0.0.1:8000/api/reactions/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
