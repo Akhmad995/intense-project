@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import TokenUtils from "../utils/TokenUtils";
 
 export const fetchUserData = createAsyncThunk(
     'auth/UserData',
@@ -32,8 +33,8 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: {
         authorized: localStorage.getItem('accessToken') !== null ? true : false,
-        accessToken: null,
-        refreshToken: null,
+        accessToken: TokenUtils.getAccessToken(),
+        refreshToken: TokenUtils.getRefreshToken(),
         userData: localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData') || '{}') as UserDataType : null,
     },
     reducers: {
