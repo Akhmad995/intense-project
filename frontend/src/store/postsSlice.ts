@@ -80,7 +80,7 @@ export const fetchPostReaction = createAsyncThunk(
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${TokenUtils.getAccessToken()}`
             },
-            body: JSON.stringify({ post: id, value: likeState })
+            body: JSON.stringify({post: id, value: likeState })
         });
         const data = await response.json();
         console.log(data);
@@ -89,6 +89,8 @@ export const fetchPostReaction = createAsyncThunk(
         return data;
     }
 );
+
+export const savedLikedPosts = JSON.parse(localStorage.getItem("IdLikedPosts") || "[]");
 
 export const postsSlice = createSlice({
     name: "posts",
@@ -112,9 +114,7 @@ export const postsSlice = createSlice({
             category: null,
             created_at: null,
             read_time: null,
-            my_reaction: localStorage.getItem('reactionState')
-                ? JSON.parse(localStorage.getItem('reactionState') || '{}')
-                : null
+            my_reaction: null as string | null
         },
         authorData: {
             id: 0,
@@ -128,7 +128,7 @@ export const postsSlice = createSlice({
             posts: [],
             comments: []
         } as UserDataType,
-        likedPosts: [] as number[]
+        IdlikedPosts: savedLikedPosts as number[]
     },
     reducers: {
         setPostsData(state, action) {
@@ -141,16 +141,18 @@ export const postsSlice = createSlice({
             state.authorData = action.payload
         },
         setPostReaction(state, action: PayloadAction<{ id: number; likeState: string | null }>) {
-            const { id } = action.payload;
-            state.postData.my_reaction = !state.postData.my_reaction;
+            const { id, likeState } = action.payload;
+            state.postData.my_reaction = likeState;
 
-            if (state.postData.my_reaction) {
-                state.likedPosts.push(id);
+            if (likeState) {
+                if (!state.IdlikedPosts.includes(id)) {
+                    state.IdlikedPosts.push(id);
+                }
             } else {
-                state.likedPosts = state.likedPosts.filter(postId => postId !== id);
+                state.IdlikedPosts = state.IdlikedPosts.filter(postId => postId !== id);
             }
 
-            localStorage.setItem('reactionState', JSON.stringify(action.payload));
+            localStorage.setItem("IdLikedPosts", JSON.stringify(state.IdlikedPosts));
         }
     }
 })

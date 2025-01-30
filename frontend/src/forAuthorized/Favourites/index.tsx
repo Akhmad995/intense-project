@@ -1,9 +1,11 @@
 import Header from "../Header"
 import Heading from "../../generalComponents/Heading"
-import { useSelector } from "react-redux"
-import { RootState } from "../../store"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "../../store"
 import { Link } from "react-router-dom"
 import s from "./style.module.css"
+import { useEffect } from "react"
+import { fetchPostsData } from "../../store/postsSlice"
 
 interface Post {
     id: number,
@@ -21,9 +23,20 @@ interface Post {
 }
 
 const Favourites = () => {
-    const IdLikedPosts = useSelector((state: RootState) => state.posts.likedPosts);
+    const dispatch = useDispatch<AppDispatch>()
+
+    useEffect(() => {
+        dispatch(fetchPostsData())
+    }, [dispatch])
+
+    const IdLikedPosts = useSelector((state: RootState) => state.posts.IdlikedPosts) || localStorage.getItem('IdLikedPosts');
 
     const postsData = useSelector((state: RootState) => state.posts.postsData);
+
+    if (!postsData.results.length) {
+        return <p>Loading...</p>;
+    }
+
     const likedPosts: Post[] = postsData.results.filter((post: Post) => IdLikedPosts.includes(post.id));
 
     return (

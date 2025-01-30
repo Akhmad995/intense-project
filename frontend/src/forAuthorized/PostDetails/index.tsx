@@ -53,16 +53,16 @@ const PostDetails = () => {
 
   const [liked, setLiked] = useState<null | string>(postData.my_reaction);
 
-  const IdLikedPosts = useSelector((state: RootState) => state.posts.likedPosts);
+  const IdLikedPosts = useSelector((state: RootState) => state.posts.IdlikedPosts);
+  const isLiked = IdLikedPosts.includes(postData.id);
 
   const handleLike = () => {
     const newLikeState = liked ? null : "heart";
     setLiked(newLikeState)
-
+    
     dispatch(fetchPostReaction({ id: postData.id, likeState: newLikeState }))
   };
 
-  const isLiked = IdLikedPosts.includes(postData.id);
 
   return (
     <div>
