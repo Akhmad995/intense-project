@@ -22,11 +22,22 @@ const PostDetails = () => {
 
   const postData = useSelector((state: RootState) => state.posts.postData)
 
-  const authorId = postData.author.id
+  let authorId = postData.author.id
+
+  useEffect(() => {
+    if (authorId) {
+      dispatch(fetchAuthorData(authorId));
+      return () => {
+        authorId = 0;
+      }
+    }
+  }, [authorId, dispatch]);
 
   useEffect(() => {
     dispatch(fetchAuthorData(authorId))
   }, [id, dispatch])
+
+  const authorData = useSelector((state: RootState) => state.posts.authorData)
 
   const createdAtDate = postData.created_at ? new Date(postData.created_at) : null;
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -40,7 +51,6 @@ const PostDetails = () => {
     day = createdAtDate.getDate();
     year = createdAtDate.getFullYear();
   }
-
 
   return (
     <div>
@@ -60,7 +70,14 @@ const PostDetails = () => {
 
       <div className={s.author}>
         <p>ABOUT THE AUTHOR</p>
-        <h2>Чтобы увидеть Автора данного поста необходимо авторизироваться</h2>
+        <div className={s.profile}>
+          <img src={authorData?.profile_picture} alt="" />
+          <div className={s.author_description}>
+            <h2>{authorData?.username}</h2>
+            <p>{authorData?.email}</p>
+            <p>{authorData?.descr}</p>
+          </div>
+        </div>
       </div>
 
     </div>

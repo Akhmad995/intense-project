@@ -62,7 +62,6 @@ export const fetchAuthorData = createAsyncThunk(
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${TokenUtils.getAccessToken()}`
             }
         })
         const data = await response.json()
