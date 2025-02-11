@@ -73,12 +73,10 @@ class UserViewSet(
             return UserUpdateSerializer 
         return UserListSerializer
 
-    def get_permissions(self): # Создать пользователя без аутентификации, получение всех только после аутентификации
-        if self.action == "create":
-            self.permission_classes = [AllowAny]
-        else:
-            self.permission_classes = [IsAuthenticated]
-        return super().get_permissions()
+    def get_permissions(self):
+        if self.action in ["create", "retrieve"]:  # Разрешаем создание и получение пользователя без авторизации
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     @action(detail=False, methods=["get", "patch"], url_path="me")
     def me(self, request):
@@ -134,10 +132,15 @@ class CommentsViewSet(
     GenericViewSet,
 ):
     queryset = Comment.objects.all().order_by("-id")
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]  # По умолчанию требуется авторизация
     serializer_class = CommentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["post__id"]
+
+    def get_permissions(self):
+        if self.action == "list":
+            return [AllowAny()]  # Разрешаем доступ без авторизации для получения списка комментариев
+        return super().get_permissions()
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
