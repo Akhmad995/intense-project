@@ -73,12 +73,10 @@ class UserViewSet(
             return UserUpdateSerializer 
         return UserListSerializer
 
-    def get_permissions(self): # Создать пользователя без аутентификации, получение всех только после аутентификации
-        if self.action == "create":
-            self.permission_classes = [AllowAny]
-        else:
-            self.permission_classes = [IsAuthenticated]
-        return super().get_permissions()
+    def get_permissions(self):
+        if self.action in ["create", "retrieve"]:  # Разрешаем создание и получение пользователя без авторизации
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     @action(detail=False, methods=["get", "patch"], url_path="me")
     def me(self, request):
