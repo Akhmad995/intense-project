@@ -1,6 +1,6 @@
 import s from './style.module.css'
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux"
 
@@ -8,6 +8,24 @@ import { fetchAuthorData, fetchPostData } from "../../store/postsSlice"
 import { AppDispatch, RootState } from "../../store";
 
 import Header from "../HeaderUn";
+import Comment from '../CommentUn';
+
+export interface CommentT {
+  id: number,
+  author: {
+    id: string,
+    first_name: string,
+    last_name: string,
+    profile_picture: string,
+  }
+  body: string,
+  created_at: string,
+  post: number,
+  dovnotes: number,
+  score: number,
+  upvotes: number,
+
+}
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -52,6 +70,23 @@ const PostDetails = () => {
     year = createdAtDate.getFullYear();
   }
 
+  const [comments, setComments] = useState<CommentT[]>([])
+    if (comments) console.log(comments)
+  
+    useEffect(() => {
+      const fetchPostComments = async () => {
+        const response = await fetch('http://127.0.0.1:8000/api/comments/', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application-json'
+          }
+        })
+        const data = await response.json()
+        setComments(data.results)
+      }
+      fetchPostComments()
+    }, [])
+
   return (
     <div>
       <Header />
@@ -79,6 +114,13 @@ const PostDetails = () => {
           </div>
         </div>
       </div>
+
+      {comments?.map((comment) => {
+        return (
+          comment.post === postData.id &&
+            <Comment key={comment.id} data={comment}/>
+        )
+      })}
 
     </div>
   )
