@@ -134,10 +134,15 @@ class CommentsViewSet(
     GenericViewSet,
 ):
     queryset = Comment.objects.all().order_by("-id")
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]  # По умолчанию требуется авторизация
     serializer_class = CommentSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["post__id"]
+
+    def get_permissions(self):
+        if self.action == "list":
+            return [AllowAny()]  # Разрешаем доступ без авторизации для получения списка комментариев
+        return super().get_permissions()
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
