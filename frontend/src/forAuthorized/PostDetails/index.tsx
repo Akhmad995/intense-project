@@ -12,6 +12,7 @@ import dontLike from '../../../public/dontLike.png'
 
 import Header from "../Header";
 import Comment from '../Comment';
+import TokenUtils from '../../utils/TokenUtils';
 
 export interface CommentT {
   id: number,
@@ -82,7 +83,6 @@ const PostDetails = () => {
   };
 
   const [comments, setComments] = useState<CommentT[]>([])
-  if (comments) console.log(comments)
 
   useEffect(() => {
     const fetchPostComments = async () => {
@@ -96,7 +96,25 @@ const PostDetails = () => {
       setComments(data.results)
     }
     fetchPostComments()
-  }, [])
+  }, [comments])
+
+  const userData = useSelector((state: RootState) => state.auth.userData)
+
+  const [newComment, setNewComment] = useState('')
+
+  const sendComment = () => {
+    fetch('http://127.0.0.1:8000/api/comments/', {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${TokenUtils.getAccessToken()}`
+      },
+      body: JSON.stringify({
+        post: postData.id,
+        body: newComment
+      })
+    }).then(() => setNewComment(''))
+  }
 
   return (
     <div>
@@ -139,9 +157,15 @@ const PostDetails = () => {
       {comments?.map((comment) => {
         return (
           comment.post === postData.id &&
-            <Comment key={comment.id} data={comment}/>
+          <Comment key={comment.id} data={comment} />
         )
       })}
+
+      <div className={s.commentForm}>
+        <img src={userData?.profile_picture} />
+        <textarea onChange={(e) => setNewComment(e.target.value)} placeholder='Add a comment…' value={newComment}></textarea>
+        <button onClick={sendComment}>SEND</button>
+      </div>
 
     </div>
   )
