@@ -1,0 +1,25 @@
+@import 
+    '../generalComponents/TopPost/style.module.scss',
+    '../generalComponents/StandartPost/style.module.scss',
+    '../generalComponents/Heading/style.module.scss',
+    '../generalComponents/FirstPost/style.module.scss'
+;
+
+@import 
+    '../forUnAuthorized/PostDetailsUn/style.module.scss',
+    '../forUnAuthorized/Login/style.module.scss',
+    '../forUnAuthorized/HomeUn/style.module.scss',
+    '../forUnAuthorized/HeaderUn/style.module.scss',
+    '../forUnAuthorized/CommentUn/style.module.scss'
+;
+
+@import 
+    '../forAuthorized/Profile/style.module.scss',
+    '../forAuthorized/PostDetails/style.module.scss',
+    '../forAuthorized/Home/style.module.scss',
+    '../forAuthorized/Header/style.module.scss',
+    '../forAuthorized/Favourites/style.module.scss',
+    '../forAuthorized/CreatePost/style.module.scss',
+    '../forAuthorized/Comment/style.module.scss',
+    '../forAuthorized/ChangeProfile/style.module.scss'
+;

@@ -1,4 +1,4 @@
-import s from './style.module.css';
+import s from './style.module.scss';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';

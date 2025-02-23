@@ -1,0 +1,53 @@
+.prevue {
+    position: relative;
+
+    img {
+        width: 1320px;
+        height: 600px;
+        object-fit: cover;
+    }
+
+    div {
+        position: absolute;
+        top: 0;
+        left: 10%;
+        width: 510px;
+        height: 480px;
+        background-color: white;
+        text-align: left;
+        padding: 4rem 2rem;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+        h3 {
+            color: #1C1C1C80;
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        h2 a {
+            font-size: 30px;
+            font-weight: 700;
+            font-family: Libre Baskerville;
+        }
+
+        p {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 400;
+
+            .point {
+                display: inline-block;
+                width: 3px;
+                height: 3px;
+                background-color: #1C1C1C80;
+                border-radius: 3px;
+                margin: 3px;
+            }
+        }
+    }
+}
+
+
+.intelligence {
+    color: #1C1C1C80;
+}
