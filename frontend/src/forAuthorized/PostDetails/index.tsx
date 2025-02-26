@@ -92,19 +92,21 @@ const PostDetails = () => {
           'Content-Type': 'application-json'
         }
       })
-      const data = await response.json()
-      setComments(data.results)
+      const data = await response.json();
+      setComments(data.results.reverse());
     }
     fetchPostComments()
-  }, [comments])
+  }, [])
 
   const userData = useSelector((state: RootState) => state.auth.userData)
 
   const [newComment, setNewComment] = useState('')
 
-  const sendComment = () => {
-    fetch('http://127.0.0.1:8000/api/comments/', {
-      method: 'POST', 
+  const sendComment = async () => {
+    if (!newComment.trim()) return
+
+    const response = await fetch('http://127.0.0.1:8000/api/comments/', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${TokenUtils.getAccessToken()}`
@@ -113,7 +115,18 @@ const PostDetails = () => {
         post: postData.id,
         body: newComment
       })
-    }).then(() => setNewComment(''))
+    })
+
+    if (response.ok) {
+      const newCommentData = await response.json();
+      const authorResponse = await fetch(`http://127.0.0.1:8000/api/users/${userData?.id}/`);
+      const authorData = await authorResponse.json();
+
+      const newComment = { ...newCommentData, author: authorData };
+
+      setComments(prev => [...prev, newComment]);
+      setNewComment('');
+    }
   }
 
   return (
