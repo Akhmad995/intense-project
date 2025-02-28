@@ -1,3 +1,5 @@
+$img: url('../../assets/email.png') no-repeat 10px center;
+
 .LoginPage {
     display: flex;
     flex-direction: column;
@@ -32,7 +34,7 @@
         background-color: #F8F8F8;
         border: none;
         border-radius: 10px;
-        padding: 0.5rem 0.5rem 0.5rem 2rem;
+        padding: 0.5rem 0.5rem 0.5rem 3.5rem;
         margin: 0.5rem;
     }
 }
@@ -79,17 +81,17 @@
 }
 
 .userName {
-    background: url('../assets/icons8-пользователь-64.png') no-repeat left;
+    background: url('../../assets/icons8-пользователь-64.png') no-repeat 10px center;
     background-size: 30px;
 }
 
 .userEmail {
-    background: url('../assets/email.png') no-repeat left;
+    background: url('../../assets/email.png') no-repeat 10px center;
     background-size: 30px;
 }
 
 .password {
-    background: url('../assets/icons8-ключ-48.png') no-repeat left;
+    background: url('../../assets/icons8-ключ-48.png') no-repeat 10px center;
     background-size: 30px;
 }
 
