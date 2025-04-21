@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './FirstPost.module.scss'
 import { Link } from "react-router-dom"
 
 interface Post {

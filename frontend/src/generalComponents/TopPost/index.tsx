@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import s from './style.module.scss'
+import s from './TopPost.module.scss'
 
 interface Post {
     id: number,

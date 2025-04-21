@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './Header.module.scss'
 import { Link, NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";

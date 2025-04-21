@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './CreatePost.module.scss'
 
 import { useForm } from 'react-hook-form'
 

@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './ChangeProfile.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'

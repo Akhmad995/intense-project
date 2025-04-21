@@ -3,7 +3,7 @@ import Heading from "../../generalComponents/Heading"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "../../store"
 import { Link } from "react-router-dom"
-import s from "./style.module.scss"
+import s from "./Favourites.module.scss"
 import { useEffect } from "react"
 import { fetchPostsData } from "../../store/postsSlice"
 

@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './Comment.module.scss'
 import { CommentT } from '../PostDetails'
 
 const Comment = ({data}: {data: CommentT}) => {

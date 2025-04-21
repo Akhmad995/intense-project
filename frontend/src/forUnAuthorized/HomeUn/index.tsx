@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './HomeUn.module.scss'
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"

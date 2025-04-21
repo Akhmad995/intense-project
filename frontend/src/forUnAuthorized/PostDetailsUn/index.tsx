@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './PostDetailsUn.module.scss'
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

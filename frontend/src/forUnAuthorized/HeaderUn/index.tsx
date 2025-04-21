@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './HeaderUn.module.scss'
 
 import logo from '../../../public/logo.png';
 import search from '../../assets/search.png';

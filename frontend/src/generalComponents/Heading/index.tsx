@@ -1,4 +1,4 @@
-import s from './style.module.scss'
+import s from './Heading.module.scss'
 
 type name = {name: string}
 

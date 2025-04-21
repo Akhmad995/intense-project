@@ -1,25 +1,19 @@
-@import 
-    '../generalComponents/TopPost/style.module.scss',
-    '../generalComponents/StandartPost/style.module.scss',
-    '../generalComponents/Heading/style.module.scss',
-    '../generalComponents/FirstPost/style.module.scss'
-;
+@use '../generalComponents/TopPost/TopPost.module.scss';
+@use '../generalComponents/StandardPost/StandardPost.module.scss';
+@use '../generalComponents/Heading/Heading.module.scss';
+@use '../generalComponents/FirstPost/FirstPost.module.scss';
 
-@import 
-    '../forUnAuthorized/PostDetailsUn/style.module.scss',
-    '../forUnAuthorized/Login/style.module.scss',
-    '../forUnAuthorized/HomeUn/style.module.scss',
-    '../forUnAuthorized/HeaderUn/style.module.scss',
-    '../forUnAuthorized/CommentUn/style.module.scss'
-;
+@use '../forUnAuthorized/PostDetailsUn/PostDetailsUn.module.scss';
+@use '../forUnAuthorized/Login/Login.module.scss';
+@use '../forUnAuthorized/HomeUn/HomeUn.module.scss';
+@use '../forUnAuthorized/HeaderUn/HeaderUn.module.scss'; 
+@use '../forUnAuthorized/CommentUn/CommentUn.module.scss';
 
-@import 
-    '../forAuthorized/Profile/style.module.scss',
-    '../forAuthorized/PostDetails/style.module.scss',
-    '../forAuthorized/Home/style.module.scss',
-    '../forAuthorized/Header/style.module.scss',
-    '../forAuthorized/Favourites/style.module.scss',
-    '../forAuthorized/CreatePost/style.module.scss',
-    '../forAuthorized/Comment/style.module.scss',
-    '../forAuthorized/ChangeProfile/style.module.scss'
-;
+@use '../forAuthorized/Profile/Profile.module.scss';
+@use '../forAuthorized/PostDetails/PostDetails.module.scss';
+@use '../forAuthorized/Home/Home.module.scss';
+@use '../forAuthorized/Header/Header.module.scss';
+@use '../forAuthorized/Favourites/Favourites.module.scss';
+@use '../forAuthorized/CreatePost/CreatePost.module.scss';
+@use '../forAuthorized/Comment/Comment.module.scss';
+@use '../forAuthorized/ChangeProfile/ChangeProfile.module.scss';

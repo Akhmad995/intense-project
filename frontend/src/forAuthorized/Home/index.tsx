@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import s from './style.module.scss'
+import s from './Home.module.scss'
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
