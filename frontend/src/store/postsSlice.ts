@@ -2,27 +2,27 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserDataType } from "./authSlice";
 import TokenUtils from "../utils/TokenUtils";
 
+export type Post = {
+    id: number,
+    author: {
+        id: number,
+        first_name: string,
+        last_name: string,
+    }
+    post_picture: string,
+    title: string,
+    body: string,
+    category: string,
+    created_at: string,
+    read_time: string
+    my_reaction: boolean
+}
+
 export interface postsData {
     count: number,
     next: string,
     previous: string,
-    results: [
-        {
-            id: number,
-            author: {
-                id: string,
-                first_name: string,
-                last_name: string,
-            }
-            post_picture: string,
-            title: string,
-            body: string,
-            category: string,
-            created_at: string,
-            read_time: string
-            my_reaction: boolean
-        }
-    ]
+    results: Post[]
 }
 
 export const fetchPostsData = createAsyncThunk(

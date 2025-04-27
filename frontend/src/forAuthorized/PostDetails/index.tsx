@@ -13,6 +13,7 @@ import dontLike from '../../../public/dontLike.png'
 import Header from "../Header";
 import Comment from '../Comment';
 import TokenUtils from '../../utils/TokenUtils';
+import FooterPost from '../../generalComponents/FooterPost';
 
 export interface CommentT {
   id: number,
@@ -179,6 +180,8 @@ const PostDetails = () => {
         <textarea onChange={(e) => setNewComment(e.target.value)} placeholder='Add a comment…' value={newComment}></textarea>
         <button onClick={sendComment}>SEND</button>
       </div>
+
+      <FooterPost />
 
     </div>
   )
